@@ -1,42 +1,17 @@
 import React, { Component } from "react";
-import jsonPlaceholder from "../../apis/jsonPlaceholder";
-import {
-  Table,
-  Header,
-  Segment,
-  Dimmer,
-  Loader,
-  Image
-} from "semantic-ui-react";
+import { Table, Header } from "semantic-ui-react";
+import { fetchPosts } from "../../actions";
+import { connect } from "react-redux";
+import LoaderComponent from "../shared/loader";
+
 class Posts extends Component {
-  constructor() {
-    super();
-    this.state = {
-      posts: null,
-      isLoading: true
-    };
-  }
-
   componentDidMount() {
-    this.fetchPosts();
+    this.props.fetchPosts();
   }
-
-  fetchPosts = async () => {
-    const response = await jsonPlaceholder.get("posts");
-    this.setState({
-      posts: response.data,
-      isLoading: false
-    });
-  };
 
   renderContent = () => {
-    return this.state.isLoading ? (
-      <Segment>
-        <Dimmer active>
-          <Loader content="Loading" />
-        </Dimmer>
-        <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
-      </Segment>
+    return this.props.isLoading ? (
+      <LoaderComponent />
     ) : (
       <Table>
         <Table.Header>
@@ -47,7 +22,7 @@ class Posts extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {this.state.posts.map(({ id, userId, title, body }) => (
+          {this.props.posts.map(({ id, userId, title, body }) => (
             <Table.Row key={id}>
               <Table.Cell>{userId}</Table.Cell>
               <Table.Cell>{title}</Table.Cell>
@@ -69,4 +44,11 @@ class Posts extends Component {
   }
 }
 
-export default Posts;
+const mapStateToParams = state => {
+  return { posts: state.posts.posts, isLoading: state.posts.isLoading };
+};
+
+export default connect(
+  mapStateToParams,
+  { fetchPosts }
+)(Posts);
