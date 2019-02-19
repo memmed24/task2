@@ -3,10 +3,17 @@ import { Table, Header } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { fetchUsers } from "../../actions";
 import Loader from "../shared/loader";
+import jsonPlaceholder from "../../apis/jsonPlaceholder";
+
 class Users extends Component {
   componentDidMount() {
-    this.props.fetchUsers();
+    this.fetchUsers();
   }
+
+  fetchUsers = async () => {
+    const { data } = await jsonPlaceholder.get("users");
+    this.props.fetchUsers(data);
+  };
 
   renderContent = () => {
     return this.props.isLoading ? (
