@@ -3,17 +3,11 @@ import { Table, Header } from "semantic-ui-react";
 import { fetchPosts } from "../../actions";
 import { connect } from "react-redux";
 import LoaderComponent from "../shared/loader";
-import jsonPlaceholder from "../../apis/jsonPlaceholder";
 
 class Posts extends Component {
   componentDidMount() {
-    this.fetchPosts();
+    this.props.fetchPosts();
   }
-
-  fetchPosts = async () => {
-    const { data } = await jsonPlaceholder.get("posts");
-    this.props.fetchPosts(data);
-  };
 
   renderContent = () => {
     return this.props.isLoading ? (

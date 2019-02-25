@@ -8,7 +8,11 @@ const initState = {
 export default (state = initState, action) => {
   switch (action.type) {
     case FETCH_POSTS:
-      return { ...state, posts: action.payload, isLoading: false };
+      return {
+        ...state,
+        posts: action.payload,
+        isLoading: false
+      };
     default:
       return state;
   }

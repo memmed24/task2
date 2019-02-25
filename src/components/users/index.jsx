@@ -1,19 +1,13 @@
 import React, { Component } from "react";
-import { Table, Header } from "semantic-ui-react";
+import { Table, Header, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { fetchUsers } from "../../actions";
+import { fetchUsers, deleteUser } from "../../actions";
 import Loader from "../shared/loader";
-import jsonPlaceholder from "../../apis/jsonPlaceholder";
 
 class Users extends Component {
   componentDidMount() {
-    this.fetchUsers();
+    this.props.fetchUsers();
   }
-
-  fetchUsers = async () => {
-    const { data } = await jsonPlaceholder.get("users");
-    this.props.fetchUsers(data);
-  };
 
   renderContent = () => {
     return this.props.isLoading ? (
@@ -26,6 +20,7 @@ class Users extends Component {
             <Table.HeaderCell>Username</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Address</Table.HeaderCell>
+            <Table.HeaderCell />
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -35,12 +30,15 @@ class Users extends Component {
               <Table.Cell>{username}</Table.Cell>
               <Table.Cell>{email}</Table.Cell>
               <Table.Cell>
-                {`
-              ${address.street} 
-              ${address.suite} 
-              ${address.city} 
-              ${address.zipcode}
-            `}
+                {address.street}
+                {address.suite}
+                {address.city}
+                {address.zipcode}
+              </Table.Cell>
+              <Table.Cell>
+                <Button onClick={() => this.props.deleteUser(id)}>
+                  Delete
+                </Button>
               </Table.Cell>
             </Table.Row>
           ))}
@@ -60,10 +58,14 @@ class Users extends Component {
 }
 
 const mapStateToParams = state => {
-  return { users: state.users.users, isLoading: state.users.isLoading };
+  return {
+    users: state.users.users,
+    isLoading: state.users.isLoading,
+    counter: state.counter
+  };
 };
 
 export default connect(
   mapStateToParams,
-  { fetchUsers }
+  { fetchUsers, deleteUser }
 )(Users);
