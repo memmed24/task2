@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Table, Header } from "semantic-ui-react";
+import { Table, Header, Grid, Button } from "semantic-ui-react";
 import { fetchPosts } from "../../actions";
 import { connect } from "react-redux";
 import LoaderComponent from "../shared/loader";
+import {Link} from 'react-router-dom';
 
 class Posts extends Component {
   componentDidMount() {
@@ -37,7 +38,18 @@ class Posts extends Component {
   render() {
     return (
       <div className="table-container">
-        <Header as="h1">Posts</Header>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={5}>
+              <Header as="h1">Posts</Header>
+            </Grid.Column>
+            <Grid.Column width={2} floated="right">
+              <Link to={"/posts/create"}>
+                <Button color="green">New post</Button>
+              </Link>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         {this.renderContent()}
       </div>
     );

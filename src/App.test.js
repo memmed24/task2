@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import User from './components/users';
+import { shallow } from 'enzyme';
 
-it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+describe('User component', () => {
+  it('it started', () => {
+    const wrapper = shallow(<User />);
+    const text = wrapper.find('p').text();
+    expect(text).toEqual('User')
+  })
+})

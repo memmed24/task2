@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Table, Header, Button } from "semantic-ui-react";
+import {
+  Table,
+  Header,
+  Button,
+  Grid,
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { fetchUsers, deleteUser } from "../../actions";
 import Loader from "../shared/loader";
@@ -50,7 +55,13 @@ class Users extends Component {
   render() {
     return (
       <div className="table-container">
-        <Header as="h1">Users</Header>
+        <Grid>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <Header as="h1">Users</Header>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         {this.renderContent()}
       </div>
     );
@@ -60,8 +71,7 @@ class Users extends Component {
 const mapStateToParams = state => {
   return {
     users: state.users.users,
-    isLoading: state.users.isLoading,
-    counter: state.counter
+    isLoading: state.users.isLoading
   };
 };
 

@@ -1,4 +1,4 @@
-import { FETCH_POSTS } from "../actions/types";
+import { FETCH_POSTS, POST_LOADING_START } from "../actions/types";
 
 const initState = {
   posts: [],
@@ -13,6 +13,10 @@ export default (state = initState, action) => {
         posts: action.payload,
         isLoading: false
       };
+    case POST_LOADING_START:
+      return {
+        isLoading: action.payload
+      }
     default:
       return state;
   }
