@@ -82,6 +82,7 @@ class UserCreate extends Component {
                   <TextArea
                     name="body"
                     placeholder="Body"
+                    autoComplete={"off"}
                     onBlur={({ target: { name, value } }) => {
                       this.props.handlePostInputsChange(name, value);
                       this.props.handlePostInputsBlur(name);
@@ -105,7 +106,7 @@ class UserCreate extends Component {
                   color="orange"
                   disabled={this.checkIfFormHasErrors()}
                 >
-                  Submit
+                  Create
                 </Button>
               </Segment>
               {this.props.postForm.isLoading ? (

@@ -2,7 +2,7 @@ import {
   FETCH_USERS,
   FETCH_POSTS,
   DELETE_USER,
-  USER_LOADING_START,
+  USERS_LOADING_START,
   POST_LOADING_START,
   POSTS_LOADING_START,
   HANDLE_POST_TITLE_CHANGE,
@@ -20,7 +20,7 @@ import validator from "validator";
 import rules from "../utils";
 
 export const fetchUsers = () => dispatch => {
-  dispatch(updateLoadingStatus(true, USER_LOADING_START));
+  dispatch(updateLoadingStatus(true, USERS_LOADING_START));
   jsonPlaceholder.get("users").then(({ data }) => {
     dispatch({
       type: FETCH_USERS,
@@ -66,7 +66,9 @@ export const handlePostInputsChange = (name, value) => {
       errors = [];
       if (value.length < rules.posts.title.minLength)
         errors.push(
-          `Value must contain ${rules.posts.title.minLength} characters`
+          `Value must contain at least ${
+            rules.posts.title.minLength
+          } characters`
         );
       return {
         type: HANDLE_POST_TITLE_CHANGE,
@@ -83,7 +85,7 @@ export const handlePostInputsChange = (name, value) => {
           `Value must contain at least ${rules.posts.body.minLength} characters`
         );
       if (!rules.posts.body.acceptEmpty) {
-        if (validator.isEmpty(value)) errors.push("values cannot be empty");
+        if (validator.isEmpty(value)) errors.push("Value cannot be empty");
       }
       return {
         type: HANDLE_POST_BODY_CHANGE,
@@ -93,7 +95,7 @@ export const handlePostInputsChange = (name, value) => {
           value: value
         }
       };
-    default: 
+    default:
       return;
   }
 };
@@ -118,14 +120,13 @@ export const handlePostSubmit = postData => dispatch => {
     dispatch({
       type: HANDLE_POST_SUBMIT
     });
-    dispatch(showMessage(POST_CREATE_SHOW_MESSAGE, "success"));
+    dispatch(showMessage(POST_CREATE_SHOW_MESSAGE));
   });
 };
 
 const showMessage = (type, message) => dispatch => {
   dispatch({
-    type: type,
-    payload: message
+    type: type
   });
 
   setTimeout(() => {

@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  Table,
-  Header,
-  Button,
-  Grid,
-} from "semantic-ui-react";
+import { Table, Header, Button, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { fetchUsers, deleteUser } from "../../actions";
 import Loader from "../shared/loader";

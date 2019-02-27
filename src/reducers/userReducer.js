@@ -1,4 +1,4 @@
-import { FETCH_USERS, DELETE_USER, USER_LOADING_START } from "../actions/types";
+import { FETCH_USERS, DELETE_USER, USERS_LOADING_START } from "../actions/types";
 
 const initState = {
   users: [],
@@ -17,7 +17,7 @@ export default (state = initState, action) => {
       return {
         users: state.users.filter(user => user.id !== action.payload)
       };
-    case USER_LOADING_START:
+    case USERS_LOADING_START:
       return {
         isLoading: action.payload
       }

@@ -3,7 +3,7 @@ import { Table, Header, Grid, Button } from "semantic-ui-react";
 import { fetchPosts } from "../../actions";
 import { connect } from "react-redux";
 import LoaderComponent from "../shared/loader";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 class Posts extends Component {
   componentDidMount() {
@@ -20,7 +20,7 @@ class Posts extends Component {
             <Table.HeaderCell>User id</Table.HeaderCell>
             <Table.HeaderCell>Title</Table.HeaderCell>
             <Table.HeaderCell>Body</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell />
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -31,9 +31,7 @@ class Posts extends Component {
               <Table.Cell>{body}</Table.Cell>
               <Table.Cell>
                 <Link to={`/posts/${id}`}>
-                  <Button color="instagram">
-                    See
-                  </Button>
+                  <Button color="instagram">See</Button>
                 </Link>
               </Table.Cell>
             </Table.Row>
