@@ -63,6 +63,7 @@ export default (state = initState, action) => {
       };
     case HANDLE_POST_SUBMIT:
       return {
+        ...state,
         title: { ...state.title, value: "", isDirty: false },
         body: { ...state.body, value: "", isDirty: false },
         isLoading: false

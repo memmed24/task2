@@ -1,8 +1,10 @@
-import { FETCH_POSTS, POST_LOADING_START } from "../actions/types";
+import { FETCH_POSTS, POSTS_LOADING_START, FETCH_POST, POST_LOADING_START } from "../actions/types";
 
 const initState = {
   posts: [],
-  isLoading: true
+  post: {},
+  isPostsLoading: true,
+  isPostLoading: true,
 };
 
 export default (state = initState, action) => {
@@ -11,11 +13,23 @@ export default (state = initState, action) => {
       return {
         ...state,
         posts: action.payload,
-        isLoading: false
+        isPostsLoading: false,
+      };
+    case POSTS_LOADING_START:
+      return {
+        ...state,
+        isPostsLoading: action.payload
+      };
+    case FETCH_POST:
+      return {
+        ...state,
+        post: action.payload,
+        isPostLoading: false
       };
     case POST_LOADING_START:
       return {
-        isLoading: action.payload
+        ...state,
+        isPostLoading: action.payload
       }
     default:
       return state;

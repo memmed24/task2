@@ -7,6 +7,7 @@ import Posts from "./components/posts";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
 import Header from "./components/shared/header";
 import history from "./history";
+import SinglePost from './components/posts/singlePost';
 
 
 class App extends Component {
@@ -31,8 +32,11 @@ class App extends Component {
                   path={"/posts"} 
                   render={({match: { url }}) => (
                     <>
-                      <Route path={url} exact component={Posts}/>
-                      <Route path={`${url}/create`} component={PostCreate} />
+                      <Switch>
+                        <Route path={url} exact component={Posts}/>
+                        <Route path={`${url}/create`} exact component={PostCreate} />
+                        <Route path={`${url}/:id`} exact component={SinglePost}/>
+                      </Switch>
                     </>
                   )}
                 />

@@ -4,6 +4,7 @@ import {
   DELETE_USER,
   USER_LOADING_START,
   POST_LOADING_START,
+  POSTS_LOADING_START,
   HANDLE_POST_TITLE_CHANGE,
   HANDLE_POST_BODY_CHANGE,
   HANDLE_POST_TITLE_BLUR,
@@ -11,7 +12,8 @@ import {
   POST_CREATE_LOADING_START,
   HANDLE_POST_SUBMIT,
   POST_CREATE_SHOW_MESSAGE,
-  POST_CREATE_HIDE_MESSAGE
+  POST_CREATE_HIDE_MESSAGE,
+  FETCH_POST
 } from "./types";
 import jsonPlaceholder from "../apis/jsonPlaceholder";
 import validator from "validator";
@@ -28,12 +30,21 @@ export const fetchUsers = () => dispatch => {
 };
 
 export const fetchPosts = () => dispatch => {
-  dispatch(updateLoadingStatus(true, POST_LOADING_START));
+  dispatch(updateLoadingStatus(true, POSTS_LOADING_START));
   jsonPlaceholder.get("posts").then(({ data }) => {
     dispatch({
       type: FETCH_POSTS,
       payload: data
     });
+  });
+};
+
+export const fetchPost = id => async dispatch => {
+  dispatch(updateLoadingStatus(true, POST_LOADING_START));
+  const { data } = await jsonPlaceholder.get(`posts/${id}`);
+  dispatch({
+    type: FETCH_POST,
+    payload: data
   });
 };
 
@@ -54,7 +65,9 @@ export const handlePostInputsChange = (name, value) => {
     case "title":
       errors = [];
       if (value.length < rules.posts.title.minLength)
-        errors.push(`Value must contain ${rules.posts.title.minLength} characters`);
+        errors.push(
+          `Value must contain ${rules.posts.title.minLength} characters`
+        );
       return {
         type: HANDLE_POST_TITLE_CHANGE,
         payload: {
@@ -66,9 +79,11 @@ export const handlePostInputsChange = (name, value) => {
     case "body":
       errors = [];
       if (value.length < rules.posts.body.minLength)
-        errors.push(`Value must contain at least ${rules.posts.body.minLength} characters`);
+        errors.push(
+          `Value must contain at least ${rules.posts.body.minLength} characters`
+        );
       if (!rules.posts.body.acceptEmpty) {
-        if(validator.isEmpty(value)) errors.push("values cannot be empty")
+        if (validator.isEmpty(value)) errors.push("values cannot be empty");
       }
       return {
         type: HANDLE_POST_BODY_CHANGE,
@@ -78,6 +93,8 @@ export const handlePostInputsChange = (name, value) => {
           value: value
         }
       };
+    default: 
+      return;
   }
 };
 
@@ -95,29 +112,29 @@ export const handlePostInputsBlur = name => {
   }
 };
 
-export const handlePostSubmit = postData =>  dispatch => {
+export const handlePostSubmit = postData => dispatch => {
   dispatch(updateLoadingStatus(true, POST_CREATE_LOADING_START));
-  jsonPlaceholder.post("posts", postData).then(({data}) => {
+  jsonPlaceholder.post("posts", postData).then(({ data }) => {
     dispatch({
       type: HANDLE_POST_SUBMIT
-    })
+    });
     dispatch(showMessage(POST_CREATE_SHOW_MESSAGE, "success"));
-  })
-}
+  });
+};
 
 const showMessage = (type, message) => dispatch => {
   dispatch({
     type: type,
     payload: message
-  })
+  });
 
   setTimeout(() => {
     dispatch(hideMessage());
   }, 3000);
-}
+};
 
 const hideMessage = () => {
   return {
     type: POST_CREATE_HIDE_MESSAGE
-  }
-}
+  };
+};

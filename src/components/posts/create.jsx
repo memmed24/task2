@@ -10,7 +10,6 @@ import {
   Transition,
   Message
 } from "semantic-ui-react";
-import validator from "validator";
 import {
   handlePostInputsChange,
   handlePostInputsBlur,
@@ -118,10 +117,8 @@ class UserCreate extends Component {
                 duration={500}
               >
                 <Message positive>
-                  <Message.Header>You are eligible for a reward</Message.Header>
-                  <p>
-                    Go to your <b>special offers</b> page to see now.
-                  </p>
+                  <Message.Header>{"Success!"}</Message.Header>
+                  <p>Your row has been inserted to fake endpoint. :)</p>
                 </Message>
               </Transition>
             </Form>

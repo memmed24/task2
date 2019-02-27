@@ -20,6 +20,7 @@ class Posts extends Component {
             <Table.HeaderCell>User id</Table.HeaderCell>
             <Table.HeaderCell>Title</Table.HeaderCell>
             <Table.HeaderCell>Body</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -28,6 +29,13 @@ class Posts extends Component {
               <Table.Cell>{userId}</Table.Cell>
               <Table.Cell>{title}</Table.Cell>
               <Table.Cell>{body}</Table.Cell>
+              <Table.Cell>
+                <Link to={`/posts/${id}`}>
+                  <Button color="instagram">
+                    See
+                  </Button>
+                </Link>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
@@ -57,7 +65,7 @@ class Posts extends Component {
 }
 
 const mapStateToParams = state => {
-  return { posts: state.posts.posts, isLoading: state.posts.isLoading };
+  return { posts: state.posts.posts, isLoading: state.posts.isPostsLoading };
 };
 
 export default connect(
